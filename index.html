@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+<title>HTML5  </title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/js.js"></script>
+	<style>
+	#duracion {
+	width:50%;border:5px solid gray;height:2.03em;margin:2px;background: white}
+	#duracion,	#botones {padding:1px;}
+	#duracion span {width:1px;background-color:#bfbfbf;height:2.13em;}
+	#duracion div {text-align:center;}
+	#botones {margin-left:0.95em;}
+	#botones button {font-size:1em;width:2em;}
+</style>
+</head>
+<body>
+	<audio id="miAudio" src="music/track1.mp3">
+	</audio>
+
+	<div id="duracion">
+		<span></span>
+		<div></div>
+	</div>
+<br>
+<div id="botones">
+		<button id="iniciar" onclick="iniciar()">&#8227;</button>
+		<button id="reiniciar" onclick="reiniciar()">&#8635;</button>
+</div>
+	<img src="images/cover.jpg" >
+<div>
+	<button onclick="document.getElementById('miAudio').play()"><img src="images/play.jpg" width="50" ></button>
+	<button onclick="document.getElementById('miAudio').pause()"><img src="images/pause.jpg" width="50"></button>
+	<button onclick="document.getElementById('miAudio').volume+=0.1">+ Volumen</button>
+	<button onclick="document.getElementById('miAudio').volume-=0.1">- Volumen</button>
+</div>
+<script>
+var miAudio=document.getElementById("miAudio");
+var duracion=0;
+var interval;
+miAudio.ondurationchange = function() {
+	duracion=miAudio.duration;
+}
+function iniciar(){
+	if(miAudio.paused)	{
+		// iniciamos
+		miAudio.play();
+		interval=setInterval(mostrarDuracion,100);
+		document.getElementById("iniciar").innerHTML="&#8545;";
+	}else{
+		miAudio.pause();
+		clearInterval(interval);
+		document.getElementById("iniciar").innerHTML="&#8227;";
+	}
+}
+function reiniciar(){
+	// nos posicionamos al inicio de la cancion
+	miAudio.currentTime=0;
+	if(miAudio.paused)	{
+		miAudio.play();
+		interval=setInterval(mostrarDuracion,100);
+
+	}
+
+}
+function mostrarDuracion(){
+	if(duracion>0)	{
+		porcentaje=miAudio.currentTime*100/duracion;
+		document.getElementById("duracion").getElementsByTagName("span")[0].style.width=porcentaje+"px";
+		document.getElementById("duracion").getElementsByTagName("div")[0].innerHTML=parseInt(porcentaje)+"%";
+	}
+}
+</script>
+</body>
+</html>
